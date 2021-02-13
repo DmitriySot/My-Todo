@@ -15,6 +15,7 @@ const defaultData = [ {label: "Drink tea", important: false, id:0, done: false},
 function Index() {
     const [todoData, setTodoData] = React.useState<{label:string, important: boolean, id: number, done: boolean}[]>(defaultData)
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
+    const [todoSearch, setTodoSearch] = React.useState<string>('')
 
     const onDeleteItem = (id: number) => {
         console.log("__id__", id )
@@ -46,11 +47,18 @@ function Index() {
     }
 
     const filteredData = React.useMemo(() => {
-      if(todoFilter === 'all') return todoData
-      return todoData.filter(({done}) => {
-      return todoFilter === 'done' ? !done : done
+      console.log("__todoSearch__", todoData)
+      if(todoFilter === 'all') return todoData.filter(({label})=> {
+        return label.toLowerCase().includes(todoSearch.toLowerCase())
       })
-    },[todoFilter, todoData.length ])
+      return todoData
+        .filter(({done}) => {
+          return todoFilter === 'done' ? !done : done
+        })
+         .filter(({label})=> {
+          return label.toLowerCase().includes(todoSearch.toLowerCase())
+        })
+    },[todoFilter, todoData.length, todoSearch ])
 
     const [doneCount, undoneCount] = React.useMemo(()=> {
       const done = todoData.reduce((sum, { done})=> {
@@ -60,15 +68,13 @@ function Index() {
       return [done, todoData.length-done]
     },[JSON.stringify(todoData)])
 
-    const onFilterTodoList = () => {
 
-    }
     return (
     <div className="app">
       {isLogged ? welcomeBox : loginBox}
       <Header active={undoneCount} done={doneCount}/>
       <div className="searchAndFilter">
-        <SearchPanel />
+        <SearchPanel onSearch={setTodoSearch}/>
         <ItemStatusFilter onFilter={setTodoFilter} activeFilter={todoFilter}/>
       </div>
       <TodoList todos={filteredData}
