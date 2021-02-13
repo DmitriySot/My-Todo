@@ -17,6 +17,8 @@ function Index() {
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
     const [todoSearch, setTodoSearch] = React.useState<string>('')
 
+  const stringtodoData = JSON.stringify(todoData)
+
     const onDeleteItem = (id: number) => {
         console.log("__id__", id )
        const filteredData = todoData.filter((item) => {
@@ -38,12 +40,13 @@ function Index() {
     }
 
     const addNewItem = (label: string) => {
-      const id = todoData[todoData.length-1].id + 1;
+
+      const id = Math.max(...todoData.map(({id}) => {
+        return id
+      })) + 1
       const newTodoItem = {label, important: false, id, done: false }
 
       setTodoData([...todoData, newTodoItem])
-      console.log("__todoData__", todoData)
-
     }
 
     const filteredData = React.useMemo(() => {
@@ -58,7 +61,9 @@ function Index() {
          .filter(({label})=> {
           return label.toLowerCase().includes(todoSearch.toLowerCase())
         })
-    },[todoFilter, todoData.length, todoSearch ])
+    },[todoFilter, todoData.length, todoSearch, stringtodoData ])
+
+
 
     const [doneCount, undoneCount] = React.useMemo(()=> {
       const done = todoData.reduce((sum, { done})=> {
@@ -66,8 +71,20 @@ function Index() {
       }, 0)
       console.log("__sum__", 1)
       return [done, todoData.length-done]
-    },[JSON.stringify(todoData)])
+    },[stringtodoData])
 
+    const onTogglePosition = (id: number, direction: string) => {
+      const copyTodo = [...todoData]
+      const currentId = copyTodo.findIndex((item) => {
+       return item.id === id
+      })
+
+       const chunkTodo = copyTodo.splice(currentId, 1)
+       copyTodo.splice(direction === "up" ? currentId-1 : currentId+1,0,  ...chunkTodo )
+       setTodoData(copyTodo)
+
+
+    }
 
     return (
     <div className="app">
@@ -80,6 +97,7 @@ function Index() {
       <TodoList todos={filteredData}
                 onDelete={onDeleteItem}
                 onToggleStatus={onToggleStatus}
+                onTogglePosition={onTogglePosition}
       />
       <AddItem onAddItem={addNewItem} />
     </div>

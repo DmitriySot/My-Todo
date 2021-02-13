@@ -8,11 +8,17 @@ interface todoListItemProps {
   id: number;
   onDelete: Function;
   onToggleStatus: Function;
+  onTogglePosition: Function;
+  isFirst: boolean;
+  isLast: boolean;
 }
 
 
 
-const TodoListItem: React.FC<todoListItemProps> = ({label, important = false, id, done, onDelete, onToggleStatus}) => {
+const TodoListItem: React.FC<todoListItemProps> = ({label, important = false,
+                                                     id, done, onDelete,
+                                                     onToggleStatus, onTogglePosition,
+                                                   isFirst, isLast}) => {
 
   const onDeleteClick = () => {
       console.log("__onDelete__", onDelete)
@@ -34,11 +40,29 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, important = false, id
 
   }, [important, done])
 
+  const onDownClick = () => {
+    onTogglePosition(id, "down")
+  }
+  const onUpClick = () => {
+    onTogglePosition(id, "up")
+  }
 
   return (
       <span className='todoListItem done'>
         <span className={styleLabel} onClick={onLabelClick} >{label}</span>
         <span className="itemButton ">
+          <button type="button"
+                  className="btn btn-outline-success btn-sm"
+                  onClick={onDownClick}
+                  disabled={isLast}>
+            ▼
+          </button>
+          <button type="button"
+                  className="btn btn-outline-success btn-sm"
+                  onClick={onUpClick}
+                  disabled={isFirst}>
+            ▲
+          </button>
           <button type="button" className="btn btn-outline-success btn-sm"  onClick={onImportantClick}>
             <i className="fa fa-exclamation"/>
           </button>
