@@ -1,0 +1,17 @@
+.todoListItem {
+    display: flex;
+    justify-content: space-between;
+}
+.todoListItem .done{
+    text-decoration: line-through;
+}
+.todoListItem .btn {
+    width: 30px;
+    margin-right: 5px;
+}
+.todoListItem .btn .fa-trash-o {
+    color: red;
+}
+.important {
+    color: tomato;
+}

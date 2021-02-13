@@ -1,0 +1,10 @@
+.app {
+    background: antiquewhite;
+    width: 510px;
+    padding: 10px;
+}
+.searchAndFilter {
+    width: 100%;
+    display: flex;
+    margin: 10px;
+}
