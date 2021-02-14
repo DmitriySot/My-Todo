@@ -1,0 +1,7 @@
+.loginBox {
+    display: flex;
+    justify-content: flex-end;
+}
+.loginBox button {
+    margin-inline-start: 10px;
+}

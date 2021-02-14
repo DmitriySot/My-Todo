@@ -1,5 +1,5 @@
 import React from 'react'
-import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem } from "../components";
+import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem,LoginBox } from "../components";
 import './style.css'
 
 
@@ -8,11 +8,10 @@ const welcomeBox = <span>Hello User</span>
 const isLogged = false;
 
 const defaultData = [ {label: "Drink tea", important: false, id:0, done: false},
-  {label: "Make Awesome App" , important: false, id: 1, done: false},
-  {label: " Have a dinner", important:  false, id: 2, done: false}
-]
+                    {label: "Make Awesome App" , important: false, id: 1, done: false},
+                    {label: " Have a dinner", important:  false, id: 2, done: false} ]
 
-function Index() {
+function App() {
     const [todoData, setTodoData] = React.useState<{label:string, important: boolean, id: number, done: boolean}[]>(defaultData)
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
     const [todoSearch, setTodoSearch] = React.useState<string>('')
@@ -41,9 +40,8 @@ function Index() {
 
     const addNewItem = (label: string) => {
 
-      const id = Math.max(...todoData.map(({id}) => {
-        return id
-      })) + 1
+      const id = todoData.length ?  Math.max(...todoData.map(({id}) => id)) + 1  : 0
+
       const newTodoItem = {label, important: false, id, done: false }
 
       setTodoData([...todoData, newTodoItem])
@@ -88,7 +86,7 @@ function Index() {
 
     return (
     <div className="app">
-      {isLogged ? welcomeBox : loginBox}
+      <LoginBox />
       <Header active={undoneCount} done={doneCount}/>
       <div className="searchAndFilter">
         <SearchPanel onSearch={setTodoSearch}/>
@@ -104,4 +102,4 @@ function Index() {
   )
 }
 
-export default Index;
+export default App;
