@@ -1,0 +1,16 @@
+.modalWindow {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: darkgoldenrod;
+    z-index: 9999;
+    opacity: 50%;
+}
+.closeModal {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}

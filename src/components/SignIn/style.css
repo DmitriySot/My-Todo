@@ -1,0 +1,14 @@
+.signIn {
+    margin: 0 auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.signIn input{
+    margin-bottom: 5px;
+    border-radius: 7px;
+}
+.signIn button {
+    border-radius: 7px;
+    background: darkgray;
+}

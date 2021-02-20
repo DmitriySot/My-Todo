@@ -1,11 +1,9 @@
 import React from 'react'
-import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem,LoginBox } from "../components";
+import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem, LoginBox, } from "../components";
 import './style.css'
 
 
-const loginBox = <span>Login please</span>
-const welcomeBox = <span>Hello User</span>
-const isLogged = false;
+
 
 const defaultData = [ {label: "Drink tea", important: false, id:0, done: false},
                     {label: "Make Awesome App" , important: false, id: 1, done: false},
@@ -86,6 +84,7 @@ function App() {
 
     return (
     <div className="app">
+
       <LoginBox />
       <Header active={undoneCount} done={doneCount}/>
       <div className="searchAndFilter">
@@ -98,6 +97,7 @@ function App() {
                 onTogglePosition={onTogglePosition}
       />
       <AddItem onAddItem={addNewItem} />
+
     </div>
   )
 }
