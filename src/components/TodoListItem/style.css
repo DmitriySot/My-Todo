@@ -1,6 +1,16 @@
 .todoListItem {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+}
+.todoListItemLabel {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.todoListItemDescription textarea {
+    width: 100%;
 }
 .todoListItem .done{
     text-decoration: line-through;
@@ -15,3 +25,5 @@
 .important {
     color: tomato;
 }
+
+
