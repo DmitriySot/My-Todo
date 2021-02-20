@@ -2,6 +2,6 @@
     display: flex;
     justify-content: flex-end;
 }
-.loginBox button {
+.loginBoxButton {
     margin-inline-start: 10px;
 }

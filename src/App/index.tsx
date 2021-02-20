@@ -81,8 +81,6 @@ function App() {
     }
 
     const onEditItem = (id: number, editLabel: string, description: string) => {
-      console.log("__id, description__", id, description)
-      console.log("__idApp__", id, editLabel)
       const todoDataCopy = [...todoData]
       const index = todoDataCopy.findIndex((item) => {
         return id===item.id

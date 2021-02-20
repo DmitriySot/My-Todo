@@ -19,12 +19,12 @@ const LoginBox = () => {
       <div className='loginBox'>
 
         <button name="enter"
-                className="btn btn-outline-secondary"
+                className="loginBoxButton btn btn-outline-secondary"
                 onClick={onEnter}>Sign In
 
         </button>
         <button name="create"
-                className="btn btn-outline-secondary"
+                className="loginBoxButton btn btn-outline-secondary"
                 onClick={onEnter}>Create Account
         </button>
         <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
