@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from "../Modal"
+import Input from '../Input'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
 import './style.css'
@@ -34,15 +35,21 @@ const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className="createAccount">
-        <input placeholder="name"
+        <Input placeholder="name"
                value={formData.values.userName}
-               onChange={formData.handleChange('userName')}/>
-        <input placeholder="surName"
+               onChange={formData.handleChange('userName')}
+               errors={formData.errors.userName}
+               showErrors={formData.touched.userName}/>
+        <Input placeholder="surName"
                value={formData.values.userSurName}
-               onChange={formData.handleChange('userSurName')}/>
-        <input placeholder="create a password"
+               onChange={formData.handleChange('userSurName')}
+               errors={formData.errors.userSurName}
+               showErrors={formData.touched.userSurName}/>
+        <Input placeholder="create a password"
                value={formData.values.userPassword}
-               onChange={formData.handleChange('userPassword')}/>
+               onChange={formData.handleChange('userPassword')}
+               errors={formData.errors.userPassword}
+               showErrors={formData.touched.userPassword}/>
         <button onClick={formData.handleSubmit as any}
                 type="submit">
           Create account

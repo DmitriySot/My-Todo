@@ -1,0 +1,21 @@
+.input {
+    margin-bottom: 20px;
+    min-height: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.inputStyle {
+
+   border-radius: 7px;
+}
+
+.inputErrors {
+    border: 2px solid red;
+    box-shadow: -5px -5px 6px 0px rgba(255, 0, 0, 0.6);
+}
+.errorText {
+    background: lightgray;
+    font-size: 0.8rem;
+}

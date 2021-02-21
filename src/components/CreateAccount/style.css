@@ -1,16 +1,17 @@
 .createAccount {
     margin: 0 auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 60%;
 }
 
-.createAccount  input {
-    margin: 0;
-    margin-bottom: 10px;
-    border-radius: 7px;
-}
+/*.createAccount  input {*/
+/*    margin: 0;*/
+/*    margin-bottom: 10px;*/
+/*    border-radius: 7px;*/
+/*}*/
 
 .createAccount button {
     border-radius: 7px;

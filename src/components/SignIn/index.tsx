@@ -1,7 +1,9 @@
 import React from 'react'
+import Input from '../Input'
 import Modal from '../Modal'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
+
 
 import './style.css'
 
@@ -30,14 +32,18 @@ const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
 
     <Modal onClose={onClose} isOpen={isOpen}>
       <div className='signIn'>
-          <input type="text"
+          <Input type="text"
                  placeholder="Login"
                  value={formData.values.userName}
-                 onChange={formData.handleChange('userName')}/>
-          <input type="text"
+                 onChange={formData.handleChange('userName')}
+                 showErrors={formData.touched.userName}
+                 errors={formData.errors.userName}/>
+          <Input type="password"
                  placeholder="Password"
                  value={formData.values.password}
-                 onChange={formData.handleChange('password')} />
+                 onChange={formData.handleChange('password')}
+                 showErrors={formData.touched.password}
+                 errors={formData.errors.password}/>
           <button onClick={formData.handleSubmit as any} type="submit">Sign In</button>
       </div>
     </Modal>
