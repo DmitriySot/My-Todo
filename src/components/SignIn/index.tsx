@@ -3,9 +3,8 @@ import Input from '../Input'
 import Modal from '../Modal'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
+import styled from '@emotion/styled'
 
-
-import './style.css'
 
 interface SignInProps {
   onClose: Function;
@@ -21,6 +20,19 @@ const initialValues = {
   password: '',
 }
 
+const StyledSignIn = styled('div') `
+    margin: 20% auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    & button{
+        margin: 0 auto;
+        width: 100px;
+        border-radius: 7px;
+        background: darkgray;
+    }
+`
+
 const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
     const onSubmit = (data: any) => {
       console.log("_sdfg___", data )
@@ -31,7 +43,7 @@ const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
    return (
 
     <Modal onClose={onClose} isOpen={isOpen}>
-      <div className='signIn'>
+      <StyledSignIn>
           <Input type="text"
                  placeholder="Login"
                  value={formData.values.userName}
@@ -45,7 +57,7 @@ const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
                  showErrors={formData.touched.password}
                  errors={formData.errors.password}/>
           <button onClick={formData.handleSubmit as any} type="submit">Sign In</button>
-      </div>
+      </StyledSignIn>
     </Modal>
   )
 }

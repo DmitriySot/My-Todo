@@ -1,14 +1,23 @@
 import React from 'react'
 import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem, LoginBox} from "../components";
-import './style.css'
-
-
+import styled from '@emotion/styled'
 
 
 const defaultData = [ {label: "Drink tea", description: '' , important: false, id:0, done: false},
                     {label: "Make Awesome App", description: '' , important: false, id: 1, done: false},
                     {label: " Have a dinner", description: '' ,  important:  false, id: 2, done: false} ]
 
+const StyledApp = styled('div') `
+  margin: 0 auto;
+  background: antiquewhite;
+  width: 510px;
+  padding: 10px;
+`
+const StyledSearchAndFilterV = styled('div') `
+    width: 100%;
+    display: flex;
+    margin: 10px;
+`
 function App() {
     const [todoData, setTodoData] = React.useState<{label:string, description: string , important: boolean, id: number, done: boolean}[]>(defaultData)
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
@@ -91,14 +100,14 @@ function App() {
     }
 
     return (
-    <div className="app">
+    <StyledApp>
 
       <LoginBox />
       <Header active={undoneCount} done={doneCount}/>
-      <div className="searchAndFilter">
+      <StyledSearchAndFilterV>
         <SearchPanel onSearch={setTodoSearch}/>
         <ItemStatusFilter onFilter={setTodoFilter} activeFilter={todoFilter}/>
-      </div>
+      </StyledSearchAndFilterV>
       <TodoList todos={filteredData}
                 onDelete={onDeleteItem}
                 onToggleStatus={onToggleStatus}
@@ -107,7 +116,7 @@ function App() {
       />
       <AddItem onAddItem={addNewItem} />
 
-    </div>
+    </StyledApp>
   )
 }
 

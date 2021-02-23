@@ -1,10 +1,15 @@
 import React from 'react'
-import './style.css'
+import styled from '@emotion/styled'
 
 interface searchPanelProps {
     onSearch: Function;
 }
 
+const StyledSearchPanel = styled('input') `
+    width: 60%;
+    height: 38px;
+    margin-right: 10px;
+`
 const SearchPanel: React.FC<searchPanelProps> = ({onSearch}) => {
 
   const onSearchTodo = (e: any) => {
@@ -14,7 +19,7 @@ const SearchPanel: React.FC<searchPanelProps> = ({onSearch}) => {
   }
 
   return (
-    <input className="searchPanel" placeholder="search" onChange={onSearchTodo}/>
+    <StyledSearchPanel placeholder="search" onChange={onSearchTodo}/>
   )
 }
 

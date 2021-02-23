@@ -1,6 +1,15 @@
 import React from 'react'
 import {SignIn, CreateAccount} from '../index'
-import './style.css'
+import styled from '@emotion/styled'
+
+
+const StyledLVoginBox = styled('div') `
+    display: flex;
+    justify-content: flex-end;
+    & button {
+      margin-inline-start: 10px;
+    }
+`
 
 const LoginBox = () => {
 
@@ -16,21 +25,21 @@ const LoginBox = () => {
   }
   return (
 
-      <div className='loginBox'>
+      <StyledLVoginBox>
 
         <button name="enter"
-                className="loginBoxButton btn btn-outline-secondary"
+                className=" btn btn-outline-secondary"
                 onClick={onEnter}>Sign In
 
         </button>
         <button name="create"
-                className="loginBoxButton btn btn-outline-secondary"
+                className=" btn btn-outline-secondary"
                 onClick={onEnter}>Create Account
         </button>
         <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
         <CreateAccount onClose={onClose} isOpen={openModal==="create"}/>
 
-      </div>
+      </StyledLVoginBox>
 
   )
 }

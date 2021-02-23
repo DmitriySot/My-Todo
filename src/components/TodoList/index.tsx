@@ -1,6 +1,6 @@
 import React from 'react'
 import TodoListItem from "../TodoListItem";
-import './style.css'
+import styled from '@emotion/styled'
 
 interface todoListProps {
   todos: {id: number, label: string, description: string, important: boolean, done: boolean}[];
@@ -10,10 +10,20 @@ interface todoListProps {
   onEditItem: Function;
 }
 
+const StyledTodoList = styled('ul')` 
+  padding: 10px;
+  width: 500px;
+  & li {
+    padding: 10px;
+    font-weight: bolder;
+  }
+  
+`
+
 const TodoList: React.FC<todoListProps> = ({todos, onDelete, onToggleStatus,
                                              onTogglePosition, onEditItem} ) => {
   return (
-    <ul className="list-group todoList">
+    <StyledTodoList className="list-group">
       {todos.map(({id, ...item}, i)=>
         <li className="list-group-item"
           key={id}>
@@ -27,7 +37,7 @@ const TodoList: React.FC<todoListProps> = ({todos, onDelete, onToggleStatus,
 
         </li>
       )}
-    </ul>
+    </StyledTodoList>
   )
 }
 

@@ -1,5 +1,7 @@
 import React from 'react'
-import './style.css'
+import styled from '@emotion/styled'
+import {css} from '@emotion/css'
+
 
 interface todoListItemProps {
   label: string;
@@ -15,7 +17,23 @@ interface todoListItemProps {
   onEditItem: Function;
 }
 
-
+const StyledTodoListItem = styled('div') `
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    & button {
+      width: 30px;
+      margin-right: 5px;
+    }
+`
+const StyledDescriptionItem = styled('textarea') `
+   width: 100%;
+`
+const StyledTodoListItemLabel = styled('span') `
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+`
 
 const TodoListItem: React.FC<todoListItemProps> = ({label, description, important = false,
                                                      id, done, onDelete,
@@ -41,13 +59,11 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   const onLabelClick = () => {
       onToggleStatus(id, "done")
   }
-  const styleLabel = React.useMemo(() => {
-      let classNames = "todoListItem"
-      if(done) classNames += " done"
-      if(important) classNames += " important"
-      return classNames
 
-  }, [important, done])
+  const divCss = {
+    textDecoration: done? "line-through" : '',
+    color: important? "tomato" : ''
+  }
 
   const onDownClick = () => {
     onTogglePosition(id, "down")
@@ -57,7 +73,7 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   }
 
   const onEditClick = () => {
-    editItem !== label && onEditItem(id, editItem)
+    editItem !== label && editItem !== '' && onEditItem(id, editItem)
     setIsEditMode(!isEditMode)
 
   }
@@ -66,6 +82,7 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   }
 
   const onEnterPress = (e: any) => {
+
     if(isEditMode && e.key === 'Enter') onEditClick()
 
   }
@@ -79,16 +96,18 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   }
 
   return (
-    <div className='todoListItem '>
 
-      <span className="todoListItemLabel">
+    <StyledTodoListItem>
+
+      <StyledTodoListItemLabel>
         {isEditMode ?
           <input autoFocus
                  placeholder="edit"
                  defaultValue={label}
                  onChange={onInputChange}
+                 onBlur={onEditClick}
                   onKeyDown={onEnterPress}/> :
-          <span className={styleLabel} onClick={onLabelClick}  >{label}</span>
+          <span className={css(divCss)} onClick={onLabelClick}  >{label}</span>
         }
         <span className="itemButton ">
           <button className="btn btn-outline-success btn-sm"
@@ -97,7 +116,7 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
             📑
           </button>
           <button className="btn btn-outline-success btn-sm"
-                  onClick={onEditClick}>
+                  onClick={onEditClick} >
             🛠
           </button>
           <button type="button"
@@ -116,15 +135,14 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
             <i className="fa fa-exclamation"/>
           </button>
           <button type="button" className="btn btn-outline-warning btn-sm " onClick={onDeleteClick}>
-            {/*<i className="fa fa-trash-o"/>*/}
-            🚽
+             🚽
           </button>
 
         </span>
-      </span>
+      </StyledTodoListItemLabel>
       {isOpenDescription ?
-        <span className='todoListItemDescription '>
-          <textarea  onChange={onChangeDescription}
+        <span >
+          <StyledDescriptionItem  onChange={onChangeDescription}
                      value={editDescription}
                      autoFocus
                      />
@@ -132,7 +150,7 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
 
       }
 
-    </div>
+    </StyledTodoListItem>
   )
 }
 

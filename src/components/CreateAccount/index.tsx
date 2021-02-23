@@ -3,7 +3,8 @@ import Modal from "../Modal"
 import Input from '../Input'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
-import './style.css'
+import styled from '@emotion/styled'
+
 
 interface createAccountProps {
   onClose: any;
@@ -22,6 +23,19 @@ const initialValues = {
   userPassword: ''
 }
 
+const StyledCreateAccount = styled('div') `
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    & button {
+      border-radius: 7px;
+      background: darkgray;
+    }
+`
+
 const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
 
   const onSubmit = (data: any) => {
@@ -34,7 +48,7 @@ const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
   console.log("__formData.errors__", formData.errors)
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
-      <div className="createAccount">
+      <StyledCreateAccount>
         <Input placeholder="name"
                value={formData.values.userName}
                onChange={formData.handleChange('userName')}
@@ -54,7 +68,7 @@ const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
                 type="submit">
           Create account
         </button>
-      </div>
+      </StyledCreateAccount>
     </Modal>
 
   )
