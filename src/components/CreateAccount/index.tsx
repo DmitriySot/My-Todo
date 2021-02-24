@@ -4,6 +4,7 @@ import Input from '../Input'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
 import styled from '@emotion/styled'
+import {getId} from '../helper'
 
 
 interface createAccountProps {
@@ -11,10 +12,20 @@ interface createAccountProps {
   isOpen: boolean;
 }
 
+const testLength = (val: any) => {
+  return val && (val.length > 2 && val.length < 16)
+}
+
 const schema = yup.object().shape({
-  userName: yup.string().required(),
-  userSurName: yup.string().required(),
-  userPassword: yup.string().required()
+  userName: yup.string()
+  .test('len', 'Name must be min 3, max 15 characters', testLength)
+    .required(),
+  userSurName: yup.string()
+    .test('len', 'Surname must be min 3, max 15 characters', testLength)
+    .required(),
+  userPassword: yup.string()
+  .test('len', 'Password must be min 3, max 15 characters', testLength)
+    .required()
 })
 
 const initialValues = {
@@ -43,6 +54,7 @@ const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
 
   const onSubmit = (data: any) => {
     console.log("__data__", data)
+    localStorage.setItem(`${data.userName}: ${data.userPassword}`, getId())
 
   }
   const formData = useFormik({

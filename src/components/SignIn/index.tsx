@@ -4,15 +4,25 @@ import Modal from '../Modal'
 import {useFormik} from 'formik'
 import * as yup from 'yup'
 import styled from '@emotion/styled'
+import {getCurrentUser} from '../helper'
 
 
 interface SignInProps {
   onClose: Function;
   isOpen: boolean
 }
+const testLength = (val: any) => {
+  console.log("__val__", val)
+
+   return val && (val.length > 2 &&  val.length < 16)
+}
 const schema = yup.object().shape({
-  userName: yup.string().required(),
-  password: yup.string().required()
+  userName: yup.string()
+   .required()
+    .test('len', 'UserName must be min 3, max 15 characters', testLength),
+  password: yup.string()
+    .test('len', 'Password must be min 3, max 15 characters', testLength)
+    .required()
 })
 
 const initialValues = {
@@ -39,7 +49,15 @@ const StyledSignIn = styled('div') `
 
 const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
     const onSubmit = (data: any) => {
-      console.log("_sdfg___", data )
+      //console.log("_sdfg___", data )
+      const user1 = localStorage.getItem(`${data.userName}: ${data.password}`)
+      if(user1)  {
+        localStorage.setItem(`currentUser` ,`${data.userName}: ${data.password}`)
+        onClose()
+      }
+
+      //console.log("__user1__", user1)
+
     }
     const formData = useFormik({
       initialValues, onSubmit, validationSchema: schema

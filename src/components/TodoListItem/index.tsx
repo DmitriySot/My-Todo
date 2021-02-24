@@ -43,7 +43,7 @@ const StyledTodoListItemLabel = styled('div') `
         margin-bottom: 10px;
       }
       & button {
-      margin-top: 5px;
+        margin-top: 5px;
       }
   }
 `
@@ -61,7 +61,7 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   const [isOpenDescription, setIsOpenDescription] = React.useState<boolean>(false)
 
   const onDeleteClick = () => {
-      console.log("__onDelete__", onDelete)
+      // console.log("__onDelete__", onDelete)
       onDelete(id)
   }
 

@@ -14,37 +14,50 @@ const initialValues = {
   newItem: ''
 }
 
+const testLength = (val: any) => {
+  return val && (val.length > 2 && val.length < 20)
+}
+
 const schema = yup.object().shape({
-  newItem: yup.string().required()
+  newItem: yup.string()
+    .test('len', "New item must be min 3 and max 19 characters", testLength)
+    .required()
 })
 
 const StyledAddItem = styled('div')`
     display: flex;
     justify-content: space-between;
     
+    
+`
+const StyledWrapInput = styled('div') `
+   
+    flex-grow: 4;
     & input {
-      flex-grow: 4;
+      width: 100%;
+      height: 38px;
+      
     }
-    ${getMQ(breakpoints.m, true)} {
-      flex-direction: column;
-      align-items: center;
-      & input {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-    }
+    // ${getMQ(breakpoints.m, true)} {
+    //   flex-direction: column;
+    //   align-items: center;
+    //   & input {
+    //   
+    //     margin-bottom: 10px;
+    //   }
+    // }
 `
 const StyledButton = styled('button')`
    
     margin-left: 10px;
     border-radius: 5px;
     flex-grow: 1;
+    height: 38px;
     min-width: 100px;
     &:hover {
-      background: lightgray;
+      background: gray;
     }
     ${getMQ(breakpoints.m, true)} {
-      margin: 0;
       max-width: 50%;
       
     }
@@ -62,15 +75,19 @@ const AddItem: React.FC<addItemProps>  = ({onAddItem}) => {
 
     return (
     <StyledAddItem >
-      <Input
-             onChange={formData.handleChange('newItem')}
-             value={formData.values.newItem}
-             placeholder="Add New Item"
-             errors={formData.errors.newItem}
-             showErrors={formData.touched.newItem}/>
+      <StyledWrapInput>
+        <Input
+               onChange={formData.handleChange('newItem')}
+               value={formData.values.newItem}
+               placeholder="Add New Item"
+               errors={formData.errors.newItem}
+               showErrors={formData.touched.newItem}/>
+
+      </StyledWrapInput>
 
       <StyledButton className=" btn btn-info"
-                    onClick={formData.handleSubmit as any}>Add Item</StyledButton>
+                    onClick={formData.handleSubmit as any}>Add Item
+      </StyledButton>
     </StyledAddItem>
 
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import {SignIn, CreateAccount} from '../index'
 import styled from '@emotion/styled'
-import {getMQ, breakpoints} from '../helper'
+import {getMQ, breakpoints, getCurrentUser, userNameLogged} from '../helper'
 
 
 const StyledLoginBox = styled('div') `
@@ -15,34 +15,58 @@ const StyledLoginBox = styled('div') `
     }
 `
 
+
 const LoginBox = () => {
+  const [isLogin, setIsLogin] = React.useState<boolean>(!!getCurrentUser())
 
   const [openModal, setOpenModal] = React.useState<string>('')
+
+  const onClose = () => {
+    setOpenModal('')
+    setIsLogin(!!getCurrentUser())
+  }
 
   const onEnter = (e: any) => {
     console.log("__e.target.name__", e.target.name)
     setOpenModal(e.target.name)
 
+
   }
-  const onClose = () => {
-    setOpenModal('')
+  const onLogout = () => {
+    localStorage.setItem("currentUser", `` )
+    setIsLogin(false)
   }
+
   return (
 
       <StyledLoginBox>
+        {isLogin?
+          (<>
+            <div>
+              {`hello ${userNameLogged()}`}
+            </div>
+            <button name="exit"
+                    className=" btn btn-info"
+                    onClick={onLogout}>Log Out
 
-        <button name="enter"
-                className=" btn btn-outline-secondary"
-                onClick={onEnter}>Sign In
+            </button>
 
-        </button>
-        <button name="create"
-                className=" btn btn-outline-secondary"
-                onClick={onEnter}>Create Account
-        </button>
-        <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
-        <CreateAccount onClose={onClose} isOpen={openModal==="create"}/>
+          </>) :
+         ( <>
+            <button name="enter"
+                    className=" btn btn-outline-secondary"
+                    onClick={onEnter}>Sign In
 
+            </button>
+            <button name="create"
+                    className=" btn btn-outline-secondary"
+                    onClick={onEnter}>Create Account
+            </button>
+            <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
+            <CreateAccount onClose={onClose} isOpen={openModal==="create"}/>
+          </>)
+
+        }
       </StyledLoginBox>
 
   )
