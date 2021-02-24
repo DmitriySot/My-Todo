@@ -6,7 +6,7 @@ interface searchPanelProps {
 }
 
 const StyledSearchPanel = styled('input') `
-    width: 60%;
+    flex-grow: 3;
     height: 38px;
     margin-right: 10px;
 `

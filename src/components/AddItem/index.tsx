@@ -3,6 +3,7 @@ import  Input from '../Input'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import styled from '@emotion/styled'
+import {breakpoints, getMQ} from '../helper'
 
 
 interface addItemProps {
@@ -20,17 +21,32 @@ const schema = yup.object().shape({
 const StyledAddItem = styled('div')`
     display: flex;
     justify-content: space-between;
-    margin: 10px;
-    width: 480px;
+    
     & input {
-      width: 70%;
+      flex-grow: 4;
+    }
+    ${getMQ(breakpoints.m, true)} {
+      flex-direction: column;
+      align-items: center;
+      & input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
     }
 `
 const StyledButton = styled('button')`
-    width: 25%;
+   
+    margin-left: 10px;
     border-radius: 5px;
+    flex-grow: 1;
+    min-width: 100px;
     &:hover {
       background: lightgray;
+    }
+    ${getMQ(breakpoints.m, true)} {
+      margin: 0;
+      max-width: 50%;
+      
     }
 `
 
@@ -45,7 +61,7 @@ const AddItem: React.FC<addItemProps>  = ({onAddItem}) => {
   const formData = useFormik({initialValues, validationSchema: schema, onSubmit})
 
     return (
-    <StyledAddItem>
+    <StyledAddItem >
       <Input
              onChange={formData.handleChange('newItem')}
              value={formData.values.newItem}
@@ -53,7 +69,8 @@ const AddItem: React.FC<addItemProps>  = ({onAddItem}) => {
              errors={formData.errors.newItem}
              showErrors={formData.touched.newItem}/>
 
-      <StyledButton onClick={formData.handleSubmit as any}>Add Item</StyledButton>
+      <StyledButton className=" btn btn-info"
+                    onClick={formData.handleSubmit as any}>Add Item</StyledButton>
     </StyledAddItem>
 
   )

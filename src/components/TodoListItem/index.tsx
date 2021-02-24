@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import {css} from '@emotion/css'
+import {getMQ, breakpoints} from '../helper'
 
 
 interface todoListItemProps {
@@ -24,15 +25,27 @@ const StyledTodoListItem = styled('div') `
     & button {
       width: 30px;
       margin-right: 5px;
+      margin-bottom: 5px;
     }
+    
 `
 const StyledDescriptionItem = styled('textarea') `
    width: 100%;
 `
-const StyledTodoListItemLabel = styled('span') `
+const StyledTodoListItemLabel = styled('div') `
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    
+    ${getMQ(breakpoints.sm, true)} {
+      flex-direction: column;
+      & span {
+        margin-bottom: 10px;
+      }
+      & button {
+      margin-top: 5px;
+      }
+  }
 `
 
 const TodoListItem: React.FC<todoListItemProps> = ({label, description, important = false,
@@ -80,7 +93,6 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   const onInputChange = (e: any) => {
     setEditItem(e.target.value)
   }
-
   const onEnterPress = (e: any) => {
 
     if(isEditMode && e.key === 'Enter') onEditClick()

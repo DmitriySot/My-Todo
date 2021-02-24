@@ -1,9 +1,14 @@
 import React from 'react'
+import styled from '@emotion/styled'
 
 interface itemStatusFilterProps {
   onFilter: Function;
   activeFilter: string;
 }
+
+const StyledFilter = styled('div')`
+  flex-grow: 0.5;
+`
 
 const ItemStatusFilter: React.FC<itemStatusFilterProps> = ({onFilter, activeFilter}) => {
 
@@ -23,11 +28,11 @@ const ItemStatusFilter: React.FC<itemStatusFilterProps> = ({onFilter, activeFilt
   }
 
   return (
-    <div className="btn-group itemStatusFilter ">
+    <StyledFilter className="btn-group ">
       <button onClick={filterAll} type='button' className={checkIsActive("all")}>All</button>
       <button onClick={filterDone} type='button' className={checkIsActive("done")}>Active</button>
       <button onClick={filterUndone} type='button' className={checkIsActive("undone")}>Done</button>
-    </div>
+    </StyledFilter>
   )
 }
 

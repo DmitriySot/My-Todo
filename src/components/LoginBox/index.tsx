@@ -1,13 +1,17 @@
 import React from 'react'
 import {SignIn, CreateAccount} from '../index'
 import styled from '@emotion/styled'
+import {getMQ, breakpoints} from '../helper'
 
 
-const StyledLVoginBox = styled('div') `
+const StyledLoginBox = styled('div') `
     display: flex;
     justify-content: flex-end;
     & button {
       margin-inline-start: 10px;
+    }
+    ${getMQ(breakpoints.m, true)} {
+      justify-content: center;
     }
 `
 
@@ -25,7 +29,7 @@ const LoginBox = () => {
   }
   return (
 
-      <StyledLVoginBox>
+      <StyledLoginBox>
 
         <button name="enter"
                 className=" btn btn-outline-secondary"
@@ -39,7 +43,7 @@ const LoginBox = () => {
         <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
         <CreateAccount onClose={onClose} isOpen={openModal==="create"}/>
 
-      </StyledLVoginBox>
+      </StyledLoginBox>
 
   )
 }

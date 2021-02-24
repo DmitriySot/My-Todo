@@ -33,6 +33,9 @@ const StyledCreateAccount = styled('div') `
     & button {
       border-radius: 7px;
       background: darkgray;
+    };
+    & input {
+      margin-bottom: 10px;
     }
 `
 

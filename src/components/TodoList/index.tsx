@@ -1,6 +1,7 @@
 import React from 'react'
 import TodoListItem from "../TodoListItem";
 import styled from '@emotion/styled'
+import {getMQ, breakpoints} from '../helper'
 
 interface todoListProps {
   todos: {id: number, label: string, description: string, important: boolean, done: boolean}[];
@@ -11,8 +12,9 @@ interface todoListProps {
 }
 
 const StyledTodoList = styled('ul')` 
-  padding: 10px;
-  width: 500px;
+  margin: 0;
+  width: 100%;
+  padding: 10px 0;
   & li {
     padding: 10px;
     font-weight: bolder;

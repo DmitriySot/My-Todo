@@ -21,15 +21,19 @@ const initialValues = {
 }
 
 const StyledSignIn = styled('div') `
-    margin: 20% auto;
+    margin: 15px auto;
     width: 50%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     & button{
         margin: 0 auto;
         width: 100px;
         border-radius: 7px;
         background: darkgray;
+    };
+    & input {
+      margin-bottom: 10px;
     }
 `
 

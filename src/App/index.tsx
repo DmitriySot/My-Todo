@@ -1,6 +1,7 @@
 import React from 'react'
 import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem, LoginBox} from "../components";
 import styled from '@emotion/styled'
+import {breakpoints, getMQ} from '../components/helper'
 
 
 const defaultData = [ {label: "Drink tea", description: '' , important: false, id:0, done: false},
@@ -9,14 +10,29 @@ const defaultData = [ {label: "Drink tea", description: '' , important: false, i
 
 const StyledApp = styled('div') `
   margin: 0 auto;
-  background: antiquewhite;
-  width: 510px;
-  padding: 10px;
+  min-width: 360px;
+  max-width: 750px;
+ 
+  ${getMQ(breakpoints.s)} {
+    background:  beige;
+    padding: 10px 5px;
+  }
+  ${getMQ(breakpoints.m)} {
+     padding: 10px;
+     background: antiquewhite;
+  }
+  ${getMQ(breakpoints.l)} {
+    background:  bisque;
+    padding: 20px 30px;
+  }
 `
-const StyledSearchAndFilterV = styled('div') `
+const StyledSearchAndFilter = styled('div') `
     width: 100%;
     display: flex;
-    margin: 10px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    
+    
 `
 function App() {
     const [todoData, setTodoData] = React.useState<{label:string, description: string , important: boolean, id: number, done: boolean}[]>(defaultData)
@@ -104,10 +120,10 @@ function App() {
 
       <LoginBox />
       <Header active={undoneCount} done={doneCount}/>
-      <StyledSearchAndFilterV>
+      <StyledSearchAndFilter>
         <SearchPanel onSearch={setTodoSearch}/>
         <ItemStatusFilter onFilter={setTodoFilter} activeFilter={todoFilter}/>
-      </StyledSearchAndFilterV>
+      </StyledSearchAndFilter>
       <TodoList todos={filteredData}
                 onDelete={onDeleteItem}
                 onToggleStatus={onToggleStatus}

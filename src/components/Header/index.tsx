@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import {getMQ, breakpoints} from '../helper'
 
 
 interface headerProps {
@@ -8,13 +9,19 @@ interface headerProps {
 }
 
 const StyledHeader = styled('div') `
-      width: 100%;
-    display: inline-flex;
+    width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: baseline ;
-    padding-inline-start: 10px;
     & h2{
        font-size: 1.2rem;
+    }
+    ${getMQ(breakpoints.s)} {
+      flex-direction: column;
+      align-items: center;
+    }
+    ${getMQ(breakpoints.m)} {
+      flex-direction: row;
     }
 `
 
