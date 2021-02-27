@@ -1,12 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem, LoginBox} from "../components";
 import styled from '@emotion/styled'
-import {breakpoints, getMQ} from '../components/helper'
-
-
-const defaultData = [ {label: "Drink tea", description: '' , important: false, id:0, done: false},
-                    {label: "Make Awesome App", description: '' , important: false, id: 1, done: false},
-                    {label: " Have a dinner", description: '' ,  important:  false, id: 2, done: false} ]
+import {breakpoints, getMQ, getCurrentUser, getDefaultDataItem, DEFAULT_USER} from '../components/helper'
 
 const StyledApp = styled('div') `
   margin: 0 auto;
@@ -34,12 +29,29 @@ const StyledSearchAndFilter = styled('div') `
     
     
 `
+
+const defaultData = [ {label: "Drink tea", description: '' , important: false, id:0, done: false},
+                    {label: "Make Awesome App", description: '' , important: false, id: 1, done: false},
+                    {label: " Have a dinner", description: '' ,  important:  false, id: 2, done: false} ]
+
 function App() {
     const [todoData, setTodoData] = React.useState<{label:string, description: string , important: boolean, id: number, done: boolean}[]>(defaultData)
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
     const [todoSearch, setTodoSearch] = React.useState<string>('')
+    const [isUpdate, setIsUpdate] = React.useState<boolean>(true)
 
   const stringtodoData = JSON.stringify(todoData)
+
+  useEffect(() => {
+    if(!getCurrentUser) {
+      const defaultUser = () => {
+        defaultData.forEach(item=> {
+          localStorage.setItem(DEFAULT_USER, JSON.stringify(item) )
+        })
+        console.log("__defaultUser__", defaultUser)
+      } 
+    }
+  })
 
     const onDeleteItem = (id: number) => {
         console.log("__id__", id )
@@ -68,6 +80,28 @@ function App() {
       const newTodoItem = {label, description: '', important:  false, id, done: false }
 
       setTodoData([...todoData, newTodoItem])
+      
+    }
+    React.useEffect(() => {
+      const currentUser = getCurrentUser()
+      const arrItems = []
+      if(currentUser)  {
+        const getUserKey = localStorage.getItem(currentUser || '') || ''
+        for (let i = 0; i < localStorage.length; i++) {
+          const localKey = (localStorage.key(i) || '')
+          if(localKey.startsWith(getUserKey ) ) {
+            console.log("__localStorage__", localStorage.getItem(localKey))
+            arrItems.push(JSON.parse(localStorage.getItem(localKey)|| ''))
+          }
+        console.log("__arrItems__", arrItems)
+        }
+        setTodoData(arrItems)
+        // const itemUser = localStorage.getItem(getUserKey)
+      }
+    }, [isUpdate])
+
+  const onUpdate = () => {
+      setIsUpdate(!isUpdate)
     }
 
     const filteredData = React.useMemo(() => {
@@ -113,6 +147,7 @@ function App() {
       todoDataCopy[index].label = editLabel
       todoDataCopy[index].description = description
       setTodoData(todoDataCopy)
+
     }
 
     return (
@@ -130,7 +165,8 @@ function App() {
                 onTogglePosition={onTogglePosition}
                 onEditItem={onEditItem}
       />
-      <AddItem onAddItem={addNewItem} />
+      <AddItem onAddItem={addNewItem} 
+               onUpdate={onUpdate}/>
 
     </StyledApp>
   )

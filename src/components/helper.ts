@@ -17,3 +17,9 @@ export const userNameLogged = () => {
     if(user)  return user.split(":")[0]
    console.log("__getCurrentUser__", getCurrentUser())
 }
+
+export const getDefaultDataItem = (label: string) =>{
+  return {label, description: '' , important: false, id: Date.now() , done: false}
+}
+
+export const DEFAULT_USER = "defaultUser"
