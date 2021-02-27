@@ -5,7 +5,7 @@ import {getMQ, breakpoints} from '../helper'
 
 interface todoListProps {
   todos: {id: number, label: string, description: string, important: boolean, done: boolean}[];
-  onDelete: Function;
+  onUpdate: Function;
   onToggleStatus: Function;
   onTogglePosition: Function;
   onEditItem: Function;
@@ -22,7 +22,7 @@ const StyledTodoList = styled('ul')`
   
 `
 
-const TodoList: React.FC<todoListProps> = ({todos, onDelete, onToggleStatus,
+const TodoList: React.FC<todoListProps> = ({todos, onUpdate, onToggleStatus,
                                              onTogglePosition, onEditItem} ) => {
   return (
     <StyledTodoList className="list-group">
@@ -30,7 +30,7 @@ const TodoList: React.FC<todoListProps> = ({todos, onDelete, onToggleStatus,
         <li className="list-group-item"
           key={id}>
             <TodoListItem {...item} id={id}
-                          onDelete={onDelete}
+                          onUpdate={onUpdate}
                           isFirst={!i}
                           isLast={todos.length-1 === i}
                           onToggleStatus={onToggleStatus}

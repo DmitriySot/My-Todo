@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import {css} from '@emotion/css'
-import {getMQ, breakpoints} from '../helper'
+import {getMQ, breakpoints, getItemKeyById} from '../helper'
 
 
 interface todoListItemProps {
@@ -10,9 +10,9 @@ interface todoListItemProps {
   done: boolean;
   important: boolean;
   id: number;
-  onDelete: Function;
   onToggleStatus: Function;
   onTogglePosition: Function;
+  onUpdate: Function;
   isFirst: boolean;
   isLast: boolean;
   onEditItem: Function;
@@ -49,7 +49,7 @@ const StyledTodoListItemLabel = styled('div') `
 `
 
 const TodoListItem: React.FC<todoListItemProps> = ({label, description, important = false,
-                                                     id, done, onDelete,
+                                                     id, done, onUpdate,
                                                      onToggleStatus, onTogglePosition, onEditItem,
                                                    isFirst, isLast}) => {
 
@@ -61,8 +61,9 @@ const TodoListItem: React.FC<todoListItemProps> = ({label, description, importan
   const [isOpenDescription, setIsOpenDescription] = React.useState<boolean>(false)
 
   const onDeleteClick = () => {
-      // console.log("__onDelete__", onDelete)
-      onDelete(id)
+     const itemKey = getItemKeyById(id)
+     localStorage.removeItem(itemKey)
+     onUpdate()
   }
 
   const onImportantClick = () => {

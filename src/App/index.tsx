@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {Header, SearchPanel, TodoList, ItemStatusFilter, AddItem, LoginBox} from "../components";
 import styled from '@emotion/styled'
-import {breakpoints, getMQ, getCurrentUser, getDefaultDataItem, DEFAULT_USER} from '../components/helper'
+import {breakpoints, getMQ, getId,deleteItemsById, getCurrentUser, getDefaultDataItem, DEFAULT_USER, getItemFromLocalStorage } from '../components/helper'
 
 const StyledApp = styled('div') `
   margin: 0 auto;
@@ -35,7 +35,7 @@ const defaultData = [ {label: "Drink tea", description: '' , important: false, i
                     {label: " Have a dinner", description: '' ,  important:  false, id: 2, done: false} ]
 
 function App() {
-    const [todoData, setTodoData] = React.useState<{label:string, description: string , important: boolean, id: number, done: boolean}[]>(defaultData)
+    const [todoData, setTodoData] = React.useState<{label:string, description: string , important: boolean, id: number, done: boolean}[]>(getItemFromLocalStorage)
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
     const [todoSearch, setTodoSearch] = React.useState<string>('')
     const [isUpdate, setIsUpdate] = React.useState<boolean>(true)
@@ -43,18 +43,18 @@ function App() {
   const stringtodoData = JSON.stringify(todoData)
 
   useEffect(() => {
-    if(!getCurrentUser) {
-      const defaultUser = () => {
-        defaultData.forEach(item=> {
-          localStorage.setItem(DEFAULT_USER, JSON.stringify(item) )
-        })
-        console.log("__defaultUser__", defaultUser)
-      } 
-    }
-  })
 
-    const onDeleteItem = (id: number) => {
-        console.log("__id__", id )
+    if(!getCurrentUser()) {
+        deleteItemsById(DEFAULT_USER)
+        defaultData.forEach((item: any) => {
+          localStorage.setItem(DEFAULT_USER + ":" + getId() , JSON.stringify(item) )
+        })
+      // console.log("__get__", getItemFromLocalStorage())
+      setTodoData(getItemFromLocalStorage())
+    }
+  }, [])
+
+    const onDeleteItem = (id: number) => {        console.log("__id__", id )
        const filteredData = todoData.filter((item) => {
            return   id !== item.id
 
@@ -73,49 +73,39 @@ function App() {
         setTodoData(copy)
     }
 
-    const addNewItem = (label: string) => {
-
-      const id = todoData.length ?  Math.max(...todoData.map(({id}) => id)) + 1  : 0
-
-      const newTodoItem = {label, description: '', important:  false, id, done: false }
-
-      setTodoData([...todoData, newTodoItem])
-      
-    }
     React.useEffect(() => {
       const currentUser = getCurrentUser()
       const arrItems = []
-      if(currentUser)  {
-        const getUserKey = localStorage.getItem(currentUser || '') || ''
+      const getUserKey = localStorage.getItem(currentUser || '') || ''
         for (let i = 0; i < localStorage.length; i++) {
           const localKey = (localStorage.key(i) || '')
           if(localKey.startsWith(getUserKey ) ) {
-            console.log("__localStorage__", localStorage.getItem(localKey))
             arrItems.push(JSON.parse(localStorage.getItem(localKey)|| ''))
           }
         console.log("__arrItems__", arrItems)
         }
         setTodoData(arrItems)
-        // const itemUser = localStorage.getItem(getUserKey)
-      }
     }, [isUpdate])
-
   const onUpdate = () => {
       setIsUpdate(!isUpdate)
     }
 
     const filteredData = React.useMemo(() => {
-      console.log("__todoSearch__", todoData)
-      if(todoFilter === 'all') return todoData.filter(({label})=> {
+      // console.log("__todoSearch__", todoData)
+      const sortItems =  (a: any, b: any) => {
+          return a.id-b.id
+        }
+
+      if(todoFilter === 'all') return todoData.filter(({label, id})=> {
         return label.toLowerCase().includes(todoSearch.toLowerCase())
-      })
+      }).sort(sortItems)
       return todoData
-        .filter(({done}) => {
+        .filter(({done, id}) => {
           return todoFilter === 'done' ? !done : done
         })
          .filter(({label})=> {
           return label.toLowerCase().includes(todoSearch.toLowerCase())
-        })
+        }).sort(sortItems)
     },[todoFilter, todoData.length, todoSearch, stringtodoData ])
 
       const [doneCount, undoneCount] = React.useMemo(()=> {
@@ -160,13 +150,12 @@ function App() {
         <ItemStatusFilter onFilter={setTodoFilter} activeFilter={todoFilter}/>
       </StyledSearchAndFilter>
       <TodoList todos={filteredData}
-                onDelete={onDeleteItem}
                 onToggleStatus={onToggleStatus}
                 onTogglePosition={onTogglePosition}
                 onEditItem={onEditItem}
+                onUpdate={onUpdate}
       />
-      <AddItem onAddItem={addNewItem} 
-               onUpdate={onUpdate}/>
+      <AddItem  onUpdate={onUpdate}/>
 
     </StyledApp>
   )

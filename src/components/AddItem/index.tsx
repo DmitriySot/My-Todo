@@ -3,11 +3,10 @@ import  Input from '../Input'
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import styled from '@emotion/styled'
-import {breakpoints, getMQ, getCurrentUser, getDefaultDataItem} from '../helper'
+import {breakpoints, getMQ, DEFAULT_USER, getCurrentUser, getDefaultDataItem} from '../helper'
 
 
 interface addItemProps {
-  onAddItem: Function;
   onUpdate: Function;
 }
 
@@ -64,7 +63,7 @@ const StyledButton = styled('button')`
     }
 `
 
-const AddItem: React.FC<addItemProps>  = ({onAddItem, onUpdate}) => {
+const AddItem: React.FC<addItemProps>  = ({onUpdate}) => {
 
   const onSubmit = (data: any) => {
     const currentUser = getCurrentUser()
@@ -73,13 +72,10 @@ const AddItem: React.FC<addItemProps>  = ({onAddItem, onUpdate}) => {
     if(getUserKey){
       localStorage.setItem(getUserKey + ':' + Date.now(), JSON.stringify(newItem))
     } else {
-      onAddItem(data.newItem)
+      localStorage.setItem(DEFAULT_USER + ':' + Date.now(), JSON.stringify(newItem))
     }
-    console.log("__newItem__", newItem)
-    console.log("__getUserKey__", getUserKey)
-    console.log("__currentUser__", currentUser)
-    console.log("__data__", data)
     formData.resetForm()
+    console.log("__Object.entries(localStorage)__", Object.entries(localStorage))
     onUpdate()
   }
 
