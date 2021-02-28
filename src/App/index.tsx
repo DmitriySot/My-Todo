@@ -54,24 +54,6 @@ function App() {
     }
   }, [])
 
-    const onDeleteItem = (id: number) => {        console.log("__id__", id )
-       const filteredData = todoData.filter((item) => {
-           return   id !== item.id
-
-        })
-        setTodoData(filteredData)
-    }
-
-    const onToggleStatus =(id: number, type: 'done' | 'important') => {
-
-        const copy = [...todoData]
-        const indexLabel = copy.findIndex((item) => {
-            return id === item.id
-        })
-        copy[indexLabel][type] = !copy[indexLabel][type]
-
-        setTodoData(copy)
-    }
 
     React.useEffect(() => {
       const currentUser = getCurrentUser()
@@ -82,10 +64,11 @@ function App() {
           if(localKey.startsWith(getUserKey ) ) {
             arrItems.push(JSON.parse(localStorage.getItem(localKey)|| ''))
           }
-        console.log("__arrItems__", arrItems)
+        // console.log("__arrItems__", arrItems)
         }
         setTodoData(arrItems)
     }, [isUpdate])
+
   const onUpdate = () => {
       setIsUpdate(!isUpdate)
     }
@@ -109,11 +92,11 @@ function App() {
     },[todoFilter, todoData.length, todoSearch, stringtodoData ])
 
       const [doneCount, undoneCount] = React.useMemo(()=> {
-      const done = todoData.reduce((sum, { done})=> {
-      return done ? sum+1  : sum
-      }, 0)
-      console.log("__sum__", 1)
-      return [done, todoData.length-done]
+        const done = todoData.reduce((sum, { done})=> {
+          return done ? sum+1  : sum
+        }, 0)
+        // console.log("__sum__", 1)
+        return [done, todoData.length-done]
     },[stringtodoData])
 
     const onTogglePosition = (id: number, direction: string) => {
@@ -150,7 +133,6 @@ function App() {
         <ItemStatusFilter onFilter={setTodoFilter} activeFilter={todoFilter}/>
       </StyledSearchAndFilter>
       <TodoList todos={filteredData}
-                onToggleStatus={onToggleStatus}
                 onTogglePosition={onTogglePosition}
                 onEditItem={onEditItem}
                 onUpdate={onUpdate}

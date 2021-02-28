@@ -53,14 +53,14 @@ const StyledCreateAccount = styled('div') `
 const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
 
   const onSubmit = (data: any) => {
-    console.log("__data__", data)
+    // console.log("__data__", data)
     localStorage.setItem(`${data.userName}: ${data.userPassword}`, getId())
 
   }
   const formData = useFormik({
     initialValues, onSubmit, validationSchema: schema
   })
-  console.log("__formData.errors__", formData.errors)
+  // console.log("__formData.errors__", formData.errors)
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <StyledCreateAccount>

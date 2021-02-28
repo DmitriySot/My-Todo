@@ -5,6 +5,37 @@ import {useFormik} from 'formik'
 import styled from '@emotion/styled'
 import {breakpoints, getMQ, DEFAULT_USER, getCurrentUser, getDefaultDataItem} from '../helper'
 
+const StyledAddItem = styled('div')`
+    display: flex;
+    justify-content: space-between;
+    
+    
+`
+const StyledWrapInput = styled('div') `
+   
+    flex-grow: 4;
+    & input {
+      width: 100%;
+      height: 38px;
+      
+    }
+`
+const StyledButton = styled('button')`
+   
+    margin-left: 10px;
+    border-radius: 5px;
+    flex-grow: 1;
+    height: 38px;
+    min-width: 100px;
+    &:hover {
+      background: gray;
+    }
+    ${getMQ(breakpoints.m, true)} {
+      max-width: 50%;
+      
+    }
+`
+
 
 interface addItemProps {
   onUpdate: Function;
@@ -24,44 +55,6 @@ const schema = yup.object().shape({
     .required()
 })
 
-const StyledAddItem = styled('div')`
-    display: flex;
-    justify-content: space-between;
-    
-    
-`
-const StyledWrapInput = styled('div') `
-   
-    flex-grow: 4;
-    & input {
-      width: 100%;
-      height: 38px;
-      
-    }
-    // ${getMQ(breakpoints.m, true)} {
-    //   flex-direction: column;
-    //   align-items: center;
-    //   & input {
-    //   
-    //     margin-bottom: 10px;
-    //   }
-    // }
-`
-const StyledButton = styled('button')`
-   
-    margin-left: 10px;
-    border-radius: 5px;
-    flex-grow: 1;
-    height: 38px;
-    min-width: 100px;
-    &:hover {
-      background: gray;
-    }
-    ${getMQ(breakpoints.m, true)} {
-      max-width: 50%;
-      
-    }
-`
 
 const AddItem: React.FC<addItemProps>  = ({onUpdate}) => {
 
@@ -69,6 +62,7 @@ const AddItem: React.FC<addItemProps>  = ({onUpdate}) => {
     const currentUser = getCurrentUser()
     const getUserKey = localStorage.getItem(currentUser || '')
     const newItem = getDefaultDataItem(data.newItem)
+
     if(getUserKey){
       localStorage.setItem(getUserKey + ':' + Date.now(), JSON.stringify(newItem))
     } else {

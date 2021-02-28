@@ -30,9 +30,6 @@ export const getDefaultDataItem = (label: string) =>{
 
   const id = Math.max(...maxId) + 1
   console.log("__id__", id)
-
-  // console.log("__currentUserItems__", currentUserItems)
-  // const currentId = id || 0
   return {label, description: '' , important: false, id , done: false}
 }
 
@@ -48,18 +45,15 @@ export const getItemFromLocalStorage = () => {
     if ((localStorage.key(i) || '').startsWith(userKey)) {
        arrItems.push(JSON.parse(localStorage.getItem(localKey) || ''))
     }
-
   }
   return arrItems
 }
 
 export const getItemKeyById = (id: any) => {
-
   const item = Object.entries(localStorage).find((item) => {
-    console.log("__item[0]__", item[0])
+    // console.log("__item[0]__", item[0])
     if (JSON.parse(item[1]).id === id) return true
   })
-
   console.log("__item__", item)
   return item ?  item[0] : ''
 }

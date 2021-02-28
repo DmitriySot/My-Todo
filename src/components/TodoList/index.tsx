@@ -3,14 +3,6 @@ import TodoListItem from "../TodoListItem";
 import styled from '@emotion/styled'
 import {getMQ, breakpoints} from '../helper'
 
-interface todoListProps {
-  todos: {id: number, label: string, description: string, important: boolean, done: boolean}[];
-  onUpdate: Function;
-  onToggleStatus: Function;
-  onTogglePosition: Function;
-  onEditItem: Function;
-}
-
 const StyledTodoList = styled('ul')` 
   margin: 0;
   width: 100%;
@@ -22,7 +14,16 @@ const StyledTodoList = styled('ul')`
   
 `
 
-const TodoList: React.FC<todoListProps> = ({todos, onUpdate, onToggleStatus,
+
+interface todoListProps {
+  todos: {id: number, label: string, description: string, important: boolean, done: boolean}[];
+  onUpdate: Function;
+  onTogglePosition: Function;
+  onEditItem: Function;
+}
+
+
+const TodoList: React.FC<todoListProps> = ({todos, onUpdate,
                                              onTogglePosition, onEditItem} ) => {
   return (
     <StyledTodoList className="list-group">
@@ -33,7 +34,6 @@ const TodoList: React.FC<todoListProps> = ({todos, onUpdate, onToggleStatus,
                           onUpdate={onUpdate}
                           isFirst={!i}
                           isLast={todos.length-1 === i}
-                          onToggleStatus={onToggleStatus}
                           onTogglePosition={onTogglePosition}
                           onEditItem={onEditItem}/>
 
