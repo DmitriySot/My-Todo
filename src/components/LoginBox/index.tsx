@@ -15,26 +15,35 @@ const StyledLoginBox = styled('div') `
     }
 `
 
+interface loginBoxProps  {
+  onExitClick: Function;
+  onUpdate: Function;
+}
 
-const LoginBox = () => {
+const LoginBox: React.FC<loginBoxProps> = ({onExitClick, onUpdate}) => {
   const [isLogin, setIsLogin] = React.useState<boolean>(!!getCurrentUser())
-
   const [openModal, setOpenModal] = React.useState<string>('')
 
   const onClose = () => {
     setOpenModal('')
     setIsLogin(!!getCurrentUser())
+
   }
 
   const onEnter = (e: any) => {
-    console.log("__e.target.name__", e.target.name)
+    // console.log("__e.target.name__", e.target.name)
     setOpenModal(e.target.name)
+    // onClose()
+
 
 
   }
   const onLogout = () => {
-    localStorage.setItem("currentUser", `` )
+    localStorage.removeItem("currentUser" )
     setIsLogin(false)
+    onExitClick()
+
+
   }
 
   return (
@@ -62,7 +71,7 @@ const LoginBox = () => {
                     className=" btn btn-outline-secondary"
                     onClick={onEnter}>Create Account
             </button>
-            <SignIn onClose={onClose} isOpen={openModal==="enter"}/>
+            <SignIn onClose={onClose} isOpen={openModal==="enter"} onUpdate={onUpdate}/>
             <CreateAccount onClose={onClose} isOpen={openModal==="create"}/>
           </>)
 

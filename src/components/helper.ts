@@ -50,9 +50,10 @@ export const getItemFromLocalStorage = () => {
 }
 
 export const getItemKeyById = (id: any) => {
+  const userKey = getCurrentUserKey()
   const item = Object.entries(localStorage).find((item) => {
     // console.log("__item[0]__", item[0])
-    if (JSON.parse(item[1]).id === id) return true
+    if (item[0].startsWith(userKey)   && JSON.parse(item[1]).id === id) return true
   })
   console.log("__item__", item)
   return item ?  item[0] : ''

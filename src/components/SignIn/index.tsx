@@ -9,7 +9,8 @@ import {getCurrentUser} from '../helper'
 
 interface SignInProps {
   onClose: Function;
-  isOpen: boolean
+  isOpen: boolean;
+  onUpdate: Function;
 }
 const testLength = (val: any) => {
   console.log("__val__", val)
@@ -47,17 +48,18 @@ const StyledSignIn = styled('div') `
     }
 `
 
-const SignIn: React.FC<SignInProps> = ({onClose, isOpen}) => {
+const SignIn: React.FC<SignInProps> = ({onClose, isOpen, onUpdate}) => {
     const onSubmit = (data: any) => {
       //console.log("_sdfg___", data )
       const user1 = localStorage.getItem(`${data.userName}: ${data.password}`)
       if(user1)  {
         localStorage.setItem(`currentUser` ,`${data.userName}: ${data.password}`)
         onClose()
+
       }
 
       //console.log("__user1__", user1)
-
+      onUpdate()
     }
     const formData = useFormik({
       initialValues, onSubmit, validationSchema: schema

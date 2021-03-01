@@ -21,7 +21,6 @@ const StyledWrapInput = styled('div') `
     }
 `
 const StyledButton = styled('button')`
-   
     margin-left: 10px;
     border-radius: 5px;
     flex-grow: 1;
@@ -32,10 +31,8 @@ const StyledButton = styled('button')`
     }
     ${getMQ(breakpoints.m, true)} {
       max-width: 50%;
-      
     }
 `
-
 
 interface addItemProps {
   onUpdate: Function;

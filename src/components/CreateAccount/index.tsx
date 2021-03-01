@@ -6,34 +6,6 @@ import * as yup from 'yup'
 import styled from '@emotion/styled'
 import {getId} from '../helper'
 
-
-interface createAccountProps {
-  onClose: any;
-  isOpen: boolean;
-}
-
-const testLength = (val: any) => {
-  return val && (val.length > 2 && val.length < 16)
-}
-
-const schema = yup.object().shape({
-  userName: yup.string()
-  .test('len', 'Name must be min 3, max 15 characters', testLength)
-    .required(),
-  userSurName: yup.string()
-    .test('len', 'Surname must be min 3, max 15 characters', testLength)
-    .required(),
-  userPassword: yup.string()
-  .test('len', 'Password must be min 3, max 15 characters', testLength)
-    .required()
-})
-
-const initialValues = {
-  userName: '',
-  userSurName: '',
-  userPassword: ''
-}
-
 const StyledCreateAccount = styled('div') `
     margin: 0 auto;
     padding: 20px;
@@ -49,6 +21,33 @@ const StyledCreateAccount = styled('div') `
       margin-bottom: 10px;
     }
 `
+
+interface createAccountProps {
+  onClose: any;
+  isOpen: boolean;
+}
+
+const testLength = (val: any) => {
+  return val && (val.length > 2 && val.length < 16)
+}
+
+const schema = yup.object().shape({
+  userName: yup.string()
+    .test('len', 'Name must be min 3, max 15 characters', testLength)
+    .required(),
+  userSurName: yup.string()
+    .test('len', 'Surname must be min 3, max 15 characters', testLength)
+    .required(),
+  userPassword: yup.string()
+    .test('len', 'Password must be min 3, max 15 characters', testLength)
+    .required()
+})
+
+const initialValues = {
+  userName: '',
+  userSurName: '',
+  userPassword: ''
+}
 
 const CreateAccount: React.FC<createAccountProps> = ({onClose, isOpen}) => {
 

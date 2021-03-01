@@ -39,38 +39,42 @@ function App() {
     const [todoFilter, setTodoFilter] = React.useState<'all' | 'done' | 'undone'>("all")
     const [todoSearch, setTodoSearch] = React.useState<string>('')
     const [isUpdate, setIsUpdate] = React.useState<boolean>(true)
+    const [isLogout, setIsLogout] = React.useState<boolean>(true)
 
   const stringtodoData = JSON.stringify(todoData)
-
-  useEffect(() => {
-
-    if(!getCurrentUser()) {
-        deleteItemsById(DEFAULT_USER)
-        defaultData.forEach((item: any) => {
-          localStorage.setItem(DEFAULT_USER + ":" + getId() , JSON.stringify(item) )
-        })
-      // console.log("__get__", getItemFromLocalStorage())
-      setTodoData(getItemFromLocalStorage())
-    }
-  }, [])
 
 
     React.useEffect(() => {
       const currentUser = getCurrentUser()
       const arrItems = []
-      const getUserKey = localStorage.getItem(currentUser || '') || ''
+      const getUserKey = localStorage.getItem(currentUser || DEFAULT_USER)
         for (let i = 0; i < localStorage.length; i++) {
           const localKey = (localStorage.key(i) || '')
-          if(localKey.startsWith(getUserKey ) ) {
+          if(localKey.startsWith(getUserKey || '111') ) {
             arrItems.push(JSON.parse(localStorage.getItem(localKey)|| ''))
           }
-        // console.log("__arrItems__", arrItems)
         }
         setTodoData(arrItems)
     }, [isUpdate])
 
+  useEffect(() => {
+
+    if(!getCurrentUser()) {
+      deleteItemsById(DEFAULT_USER)
+      defaultData.forEach((item: any) => {
+        console.log("__item__", item)
+        localStorage.setItem(DEFAULT_USER + ":" + getId() , JSON.stringify(item) )
+      })
+       // console.log("__get__", getItemFromLocalStorage())
+       setTodoData(getItemFromLocalStorage())
+    }
+  }, [isLogout])
+
   const onUpdate = () => {
       setIsUpdate(!isUpdate)
+    }
+    const onLogout = () => {
+      setIsLogout(!isLogout)
     }
 
     const filteredData = React.useMemo(() => {
@@ -126,7 +130,7 @@ function App() {
     return (
     <StyledApp>
 
-      <LoginBox />
+      <LoginBox onExitClick={onLogout} onUpdate={onUpdate}/>
       <Header active={undoneCount} done={doneCount}/>
       <StyledSearchAndFilter>
         <SearchPanel onSearch={setTodoSearch}/>
